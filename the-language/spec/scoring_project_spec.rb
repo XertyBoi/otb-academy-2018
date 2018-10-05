@@ -28,7 +28,35 @@
 # Your goal is to write the score method.
 
 def score(dice)
-  # You need to write this method
+
+  total = 0
+  totals = [0,0,0,0,0,0,0]
+  values = [0,100,0,0,0,50,0]
+
+  dice.each do |roll|
+      totals[roll] = totals[roll] +=1
+  end
+
+  totals.each_with_index do |rolls, index|
+    if rolls >= 3
+      if index == 1
+      total += 1000
+      elsif index == 5
+      total += 500
+      else
+      total += (index*100)
+      end
+
+      totals[index] = (totals[index] - 3)
+    end
+
+    if (totals[index] > 0)
+      total += (values[index] * totals[index])
+    end
+
+  end
+
+  total
 end
 
 RSpec.describe "scorign a game of greed" do
