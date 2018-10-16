@@ -20,16 +20,16 @@ You should see a whole bunch of output as Rails does its thing and generates you
 
 Record here what the following folders are for:
 
-* `app` - 
-* `bin` - 
-* `config` - 
-* `db` - 
-* `lib` - 
-* `log` - 
-* `public` - 
-* `test` - 
-* `tmp` - 
-* `vendor` - 
+* `app` - holds the src for the app
+* `bin` - stores all bin stubs for the project. These executables can run commands from your project's environment
+* `config` - holds configuration files for specific parts of the app
+* `db` - holds database files along with the file called to seed the database with default values
+* `lib` - ruby code that doesn't fit the rails folder convention. shouldn't store here really
+* `log` - does what it says on the can. stores logs
+* `public` - static files
+* `test` - mini-test folder
+* `tmp` - temp files storage with cache
+* `vendor` - 3rd party dependancies
 
 Make a commit of your application at this point so that you can see what changes.
 
@@ -102,7 +102,7 @@ Make sure you've committed all your changes.
 
 Now that we can create new lists, they'll be much more useful if we can add items to the list. Let's do that now, going a little bit slower so we can examine each piece as we go.
 
-We'll use the Rails generator, but just build one piece at a time. 
+We'll use the Rails generator, but just build one piece at a time.
 
     $ bin/rails generate model item description:string list:references
 
