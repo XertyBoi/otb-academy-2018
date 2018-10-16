@@ -8,17 +8,31 @@ class Bottles
   end
 
   def verse(number)
+    create_verse(BottleNumber.for(number))
+  end
 
-    bottle_number = BottleNumber.new(number)
+  private
 
+  def create_verse(bottle_number)
     <<~VERSE
       #{ bottle_number.quantity_container.capitalize} of beer on the wall, #{bottle_number.quantity_container} of beer.
       #{ bottle_number.action }, #{ bottle_number.successor.quantity_container} of beer on the wall.
       VERSE
   end
 
-  private
   class BottleNumber
+
+    def self.for(number)
+      bottle_numbers.fetch(number, BottleNumber).new(number)
+    end
+
+    def self.bottle_numbers
+      {
+        0 => BottleNumber0,
+        1 => BottleNumber1,
+        6 => BottleNumber6
+      }
+    end
 
     attr_reader :number
 
@@ -31,43 +45,61 @@ class Bottles
     end
 
     def container
-      if number == 1
-        "bottle"
-      else
-        "bottles"
-      end
+      'bottles'
     end
 
     def pronoun
-      if number == 1
-        "it"
-      else
-        "one"
-      end
+      'one'
     end
 
     def quantity
-      if number == 0
-        "no more"
-      else
-        number.to_s
-      end
+      number.to_s
     end
 
     def action
-      if number == 0
-        "Go to the store and buy some more"
-      else
-        "Take #{ pronoun } down and pass it around"
-      end
+      "Take #{ pronoun } down and pass it around"
     end
 
     def successor
-      if number == 0
-        BottleNumber.new(99)
-      else
-        BottleNumber.new(number - 1)
-      end
+      BottleNumber.for(number-1)
+    end
+  end
+
+  class BottleNumber1 < BottleNumber
+    def pronoun
+      'it'
+    end
+
+    def container
+      'bottle'
+    end
+  end
+
+  class BottleNumber6 < BottleNumber1
+    def quantity
+      '1'
+    end
+
+    def container
+      'six pack'
+    end
+  end
+
+  class BottleNumber0 < BottleNumber
+    def action
+        'Go to the store and buy some more'
+    end
+
+    def quantity
+      'no more'
+    end
+
+    def successor
+      BottleNumber.for(99)
+    end
+
+    def quantity
+      'no more'
     end
   end
 end
